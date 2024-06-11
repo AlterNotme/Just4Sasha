@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Just a book</title>
+  <style>
+    @font-face {
+      font-family: estetik;
+      src: url(estetik.ttf);
+    }
+
+    @font-face {
+      font-family: isiteks;
+      src: url(tulisan.ttf);
+    }
+
+    body {
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #book-container {
+      perspective: 1000px;
+      position: relative;
+    }
+
+    #book {
+      width: 1300px;
+      height: 800px;
+      background-color: #f7f4e1;
+      border: 20px solid #92ca95;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page {
+      width: 50%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      background-color: #f7f4e1;
+      border: 2px solid #000000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+    }
+
+    .page-content {
+      padding: 20px;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .teks {
+      font-family: isiteks;
+      font-size: 1.6em;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+      font-weight: 300;
+      text-align: justify;
+    }
+
+    .page.left {
+      left: 0;
+      transform-origin: right center;
+    }
+
+    .page.right {
+      right: 0;
+      transform-origin: left center;
+    }
+
+    .gmbr {
+      background-image: url('heart.png');
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .page-button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .page-button img {
+      width: 80px;
+      height: auto;
+    }
+
+    .button-left {
+      left: 10px;
+    }
+
+    .button-right {
+      right: 10px;
+    }
+
+    .cover {
+      background-color: #92ca95;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5.3em;
+      font-family: estetik;
+      text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+      /* horizontal-offset vertical-offset blur-radius color */
+      background-image: url('koket.png');
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .copyright {
+      position: absolute;
+      left: 5px;
+      bottom: 2px;
+      /* Adjust this value to your liking */
+      font-size: 25px;
+      /* Adjust the font size of the copyright text */
+    }
+
+    .hal {
+      position: absolute;
+      right: 30px;
+      bottom: 2px;
+      /* Adjust this value to your liking */
+      font-size: 30px;
+      /* Adjust the font size of the copyright text */
+    }
+
+    .chp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 9em;
+      font-family: estetik;
+      text-shadow:
+        -3px -3px 0 #000,
+        3px -3px 0 #000,
+        -3px 3px 0 #000,
+        3px 3px 0 #000;
+      /* Shadow effect to create an outline */
+      color: #fff;
+    }
+
+    .end {
+      display: flex;      
+      justify-content: center;  
+      align-items: center;
+      text-align: center;
+      font-size: 2em;
+      font-style: italic;
+      height: 75%;
+    }
+
+    .blank {
+      background-color: #fff;
+    }
+
+    .checkbox-container {
+      background-color: #fff;
+      border: 2px solid #000;
+      padding: 20px;
+      width: 600px;
+      height: 800px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      margin-right: 20px;
+    }
+
+    .checkbox-container label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.5em;
+    }
+
+    .warn {
+      text-decoration: underline;
+      color: red;
+      font-size: 4em;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="book-container">
+    <div id="book">
+      <div class="left">
+        <div class="checkbox-container">
+          <h1 class="warn">PERHATIAN!</h1>
+          <h2>Harap membaca dan mencentang list berikut sebelum boleh membalik halaman:</h2>
+          <label><input type="checkbox">1. Pastikan yang membuka buku ini hanya dan untuk hanya Sasha lebih spesifik Dovarsha Siahaan.</label>
+          <label><input type="checkbox">2. Buku ini memakan waktu lebih dari setengah jam lebih, jadi saya mohon untuk luangkan waktu anda terlebih dahulu, jika ada pekerjaan atau kegiatan yang harus diselesaikan mohon untuk diprioritaskan terlebih dahulu untuk dikerjakan.</label>
+          <label><input type="checkbox">3. Saya lebih menyarankan anda membukanya menggunakan laptop, jika pun anda terpaksa untuk memakai handphone anda bisa membaca langkah berikut: mengubah mode layar menjadi landscape, dan mengaktifkan situs desktop.</label>
+          <label><input type="checkbox">4. Sekedar mengingatkan bahwa buku ini berisi banyak tulisan yang berpotensi membuat mata anda lelah/letih atau membuat anda merasa pusing dan saran saya mungkin nanti bisa istirahat terlebih dahulu dengan mengalihkan pandangan dari gadget yang anda pakai.</label>
+          <h3>Jika semua poin telah dicentang anda bisa mengklik tombol panah ke kanan untuk lanjut membuka bukunya. Terima Kasih!</h3>
+        </div>
+      </div>
+      <div class="page right" id="cover-right">
+        <div class="page-content cover">
+          <h1>The Book Of You</h1>
+          <p class="copyright">Made only by FAR 😸</p>
+        </div>
+      </div>
+
+      <div class="page left hidden blank" id="page1">
+        <div class="page-content">
+          <h1></h1>
+          <p></p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page2">
+        <div class="page-content">
+          <h1>Kata Pengantar</h1>
+          <p class="teks">Halooo SASHAA!!, APA KABAR? PASTI BAIK-BAIK SAJA!, sebelumnya aku berterima kasih banget sudah mau meluangkan waktu untuk
+            membaca "buku" ini. Akhirnya aku bisa menyelesaikan "buku" ini, "buku" ini aku buat kurang lebih sekitar 2/3 minggu, soalnya aku bikin di selingan waktu belajar, yaaa worth it lah sekalian belajar coding juga. Yaaaa bisa diliat dari cover dan judul
+            buku ini, sudah ketauan lah ya isi keseluruhan dari "buku" ini.</p>
+          <p class="teks">Mohon dimaafkan yah kalau kamu nanti melihat bug-bug, ehehe masih pemula, tapi kalau ada bug coba
+            direfresh aja okeh. Maafin juga ya nanti kalo ada kata-kata yang tidak mengenakkan. Aku harap kamu bisa
+            menikmati buku ini. Aku minta kamu untuk membaca isi keseluruhan buku ini dulu dan meresponnya nanti. Aku sudah tidak bisa buat kamu menunggu lebih lama lagi makannya aku buat ini, dan aku juga memberanikan diri untuk mengirimmu "buku" ini. Yah mungkin cukup itu saja, selanjutnya selamat membaca
+            "buku" ini!</p>
+          <p class="hal">2</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page3">
+        <div class="page-content">
+          <p class="end">~END of Kata Pengantar~</p>
+          <p class="hal">3</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page4">
+        <div class="page-content">
+          <h1 class="chp">Chapter 1: My Point of View</h1>
+          <p class="hal">4</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page5">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Kala itu waktu dimana hari pertama masuk sekolah, kita semua berkumpul di lapangan untuk
+            bersiap melakukan apel pagi. Di tengah-tengah lapangan upacara yang luas aku menunggu teman-temanku untuk
+            berbaris. Sambil melihat-lihat sekelilingku untuk mencari temanku, nggak sengaja aku melihat seseorang dari
+            jauh yang menggunakan semacam pita(?) di kepalanya dan juga pakai masker, and yep it was you sasha, dalam
+            hati aku berkata "itu cewe lumayan aneh ya"(btw aneh disini bukan aneh freak ya, SASHA GA FREAK KOKK tapi anehnya itu aneh kayak beda sendiri
+            aja dari yang lain) dimana semua orang sudah ga pake masker lagi, tetapi kamu sendiri masih pake masker, dan
+            juga sepertinya kamu sendiri yang pake pita di kepala (yang menurutku lucu banget) dari sekian banyaknya cewe di lapangan waktu itu, ya
+            mungkin ada cewe lain yang kek gitu, tapi pada saat itu hanya kamu saja yang aku lihat yang kayak begitu.
+            Dan mulai dari situlah aku tau kamu, dan mulai memperhatikan kamu.</p>
+          <p class="hal">5</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page6">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Makin sering ngeliat kamu jadi merasa "nih cewe lucu(cute) juga ya beda dari yang lain", dan
+            lama kelamaan aku melihat kamu sebagai orang yang "spesial". Jadi ya, rasanya ingin tiap hari lihat kamu aja
+            wkwk. Apalagi kalo kamu pake pita itu, rasanya gemas aja, mana pitanya lebih besar dari kepalamu lagi kayak
+            cute bangetttt. Jadi bisa dibilang waktu itu sudah ada rasa suka ke kamu.</p>
+          <p class="teks">Timeskip ke beberapa bulan setelahnya, waktu itu aku lagi di kantin lagi makan siang sama
+            temenku sebut saja "M", nah terus tiba-tiba temenku ini bahas tentang percewean gitu la, aku ya dengerin aja
+            cuman iya-iyain, ehhh tiba-tiba kamu muncul ke kantin atau lewat gitu lupa, temenku bilang "Nah itu qi, lucu
+            juga cewe itu" sambil nunjuk ke arah kamu, aku kaget dongg akhirnya aku bilang kalo itu sudah cewe yang
+            kumaksud waktu itu, karena sebelumnya aku udah pernah cerita ke dia kalo ada cewe yang lucu gitu tapi aku
+            belum nyebut kamu karena pada saat itu belum kenal kan.</p>
+          <p class="hal">6</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page7">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Teruss dia bilang "oohh dia namanya sasha qi", kemudian dia nunjukin hpnya sambil bilang "nihh
+            akun ignya" aku dalam hati kayak "tau darimana ni orang...", terus dia lanjut ngomong "nih aku tau karena
+            seangkatan sama adekku, gas sudah qi follow", tapi aku pada saat itu belum berani untuk ngefollow akun igmu
+            jadi aku nolak dulu. Karena temenku sudah tau kamu jadi ya tiap kamu lewat lorong gitu aku kayak di
+            cie-ciein gitu deh. Bahkan dia sampai bikin julukan ke kamu "gadis kentang" buat ngecie-ciein aku (btw kalo
+            mau tau arti dan maksudnya search aja coba di gugel hehe). Karena aku sudah tau artinya jadinya lucu(cute)
+            aja gitu. Aku juga ada julukan sih buat kamu "gadis pita", ya alasannya udah tau lah ya hehe.</p>
+          <p class="teks">Karena dulu aku hanya berani ngelihat kamu dari jauh saja, temenku ni akhirnya gemes sama aku
+            masa cuman ngelihat aja ga ada progress, aku ya terima-terima aja, yaaa mau gimana lagi aku masi malu pada
+            saat itu.</p>
+          <p class="teks"></p>
+          <p class="hal">7</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page8">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Lanjut ke beberapa bulan kemudian, kalo ga salah November, aku masi inget banget waktu itu di
+            hari rabu jam mapel biologi bertepatan dengan pembagian ulangan biologi akhirnya karena sudah lelah
+            dicie-cie in terus sama temenku, aku wa ke dia "M aku mau ngedare kalo nanti aku dapat nilai ulangan bio
+            diatas kkm, ku follow dia(kamu)", terus dia read dan ga lama kemudian notif dari ig muncul, "nih akunnya
+            buat jaga-jaga" dia langsung share akunmu ke aku. Aku berani ngedare gitu karena ulangan-ulangan sebelumnya
+            aku remed terus (agak bodo emang faqi kalo tentang biologi) tapi khusus di bab itu aku belajar
+            sungguh-sungguh dan emang pure ngerjain ulangan walaupun temen-temenku pada saat itu punya salinan
+            ulangannya. Lanjut saat pembagian ulangan tiba-tiba Pak Bagyo bilang "nilai tertinggi di bab ini diraih oleh
+            seseorang bernama faqih, dengan nilai 97" AKU KAGET DONG kayak HAHHHH, terus Pak Bagyo bilang "atas nama
+            faqih, maju kedepan sini", disitu kakiku lemes banget rasanya, baru pertama kali ngerasain kek gitu.</p>
+          <p class="hal">8</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page9">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks"> Dalam hatiku kayak "aku ga minta nilai tinggi aku hanya minta di atas kkm aja sudah cukup".
+            Ternyata emang beneran itu kertas jawabanku dan tertulis di pojok kanan atas 97, di satu sisi aku merasa
+            bangga karena usahaku ga sia-sia, tapi di sisi lain aku masih belum siap untuk ngefollow akun igmu wkwk.
+            Selesai mapel biologi akhirnya aku buru-buru ambil hp karena kalo setiap mapel biologi hp harus dikumpulkan
+            di keranjang, kemudian aku langsung chat ke M "WOY AKU DAPAT 97, WAHHH LEMES AKU", karena setelah mapel
+            biologi itu ishoma akhirnya aku keluar kelas dan langsung nyari si M ini. Setelah ketemuan mau ga mau aku
+            harus menepati dareku. Tanpa pikir panjang aku klik akunmu yang udah dishare tadi dan kemudian aku langsung
+            pencet tombol follow. Aku sudah bersikap bodoamat apa yang akan terjadi, aku langung matiin hpku karena
+            saking malunya. Seharian penuh aku ga buka ig dan seharian itu kepikiran terus kayak "kenapa aku ngelakuin
+            itu(dengan nada menyesal)" kata-kata itulah yang selalu terngiang-ngiang di kepalaku.</p>
+          <p class="teks"></p>
+          <p class="hal">9</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 10">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Bahkan pada hari itu biasanya kan aku makan siang di kantin sama si M ini, pas makan tuh
+            rasanya kayak ga tenang gitu, terus takut juga. Kemudian keesokan harinya pagi-pagi tuh aku udah di sekolah,
+            aku memberanikan diri buka ig kayak "Ah palingan juga ga ada apa-apa, gausa terlalu berharap qih" EHHH
+            ternyata ada pemberitahuan kalo ternyata aku difolback sama kamu, TAMBAH LEMES AKU, soalnya aku liat
+            notifikasi tuh ga ada apa-apa atau mungkin ketutupan karena saking banyaknya notifikasi yang belum kuhapus.
+            Aku kepikiran "kok dia folback aku sih, emang dia kenal aku?" sambil bertanya-tanya sambil deg-degan parahhh
+            salting brutal pokoknya. Aku positive thinking pada saat itu, soalnya aku ngepost tentang PLS itu kan, jadi
+            aku ngiranya kamu ngefolback aku gegara kamu ngira aku osis, padahal mah sudah ga lagi. Tapi tetap aja, itu
+            postingan waktu PLS yang tahun lalu untuk apa kamu ngefollow aku kalau kamu ga tau aku. Rasanya campur aduk
+            lah pokoknya waktu itu, juga pengen jungkir balek saking saltingnya.
+          </p>
+          <p class="hal">10</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 11">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Kemudian aku memberanikan diri untuk melihat akunmu karena penasaran banget isi akunmu, dan
+            ternyata cuman ada highlight'' doang, hehe ekspektasiku terlalu tinggi ternyata. Oya aku pada saat
+            itu juga langsung kasi tau ke si M kalo aku di follback. Dia kaget juga, "kok bisa seorang faqih yang
+            diem-diem doang dikenal". Ya bener, aku tipikal orang yang kalo suka orang lain diem-diem aja cuman kasih
+            tau 1/2 orang aja, dan ga tertarik ngejar. Tapi entah kenapa kalo ke kamu beda aja rasanya, kayak pengen
+            ngejar pengen ngedapetin kamu gitulah.</p>
+          <p class="teks">Pulang sekolah aku baru ingat kalo aku belum liat highlightmu, sumpah kepo banget waktu
+            itu, hehe mohon maaf ya ngestalk dikit ehehe. Akhirnya aku buka highlightmu yang isinya foto-foto kamu, walaupun
+            ada rasa takut tapi tetap ku gas aja hehe. Isi pertama highlightnya ternyata foto kamu waktu smp yang dimana
+            LUCU BANGETTT SUMPAHH, makin discroll makin ga kuat aku karena lucu bangettt gak boong. Sekali lagi mohon
+            maaf yah.</p>
+          <p class="hal">11</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 12">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Selang beberapa hari kemudian, waktu itu kalo ga salah lagi ishoma, aku mau menuju ke kelas
+            dari perpustakaan, aku ingat banget kala itu di lorong sekolah aku lagi jalan, megang kertas binder sambil
+            pake tws juga, dari jauh aku liat siluet cewe yang familiar, dan ternyata benar orang itu adalah sasha, kamu
+            kalau ga salah habis ambil bekal, aku saat itu panik banget, ga tau harus bertingkah kayak apa, "apakah aku
+            harus menyapanya? tapi emang dia kenal aku?", makin lama makin kepikiran makin ngedeket juga kamu, terus
+            kita ga sengaja eye contact yang dimana makin buat aku bingung ngapain. Karena lama berpikir akhirnya aku
+            memutuskan untuk diam aja sok cool gitu la karena gatau mau ngapain, padahal dalam hati meraung-raung "SAPA
+            CEPAT SAPA!!", akhirnya kamu sudah lewat, dari luar mah keliatan diem aja, tapi di dalam BEHHH itu jantung
+            rasanya kek maraton DAG DUG KENCENG BANGET. DAN TERNYATA DARI JAUH TEMENKU M NGELIAT KITA JUGA WKWKWK,
+            karena pas aku nyamperin dia, dia ngecie-ciein gitu "aaa faqi papasan uhuyy"</p>
+          <p class="hal">12</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 13">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Aku sudah ga bisa berkata-kata lagi waktu itu, jadi aku ga hiraukan aja perkataan dia. Tapi dari
+            situ aku tau kalo kamu sering dititipi bekal.</p>
+          <p class="teks">Oh ya sha, aku mau jujur bahwa aku tau kamu les Bu Ning tu gara-gara waktu itu hari kamis tapi
+            lupa kamis kapan, aku pindah jadwal les kimia karena besonya tuh mau ulangan, me en my frens janjian jam 4,
+            yaudahlah ya pulang sekolah aku siap-siap mau les, kebetulan karena rumahku deket sama rumahnya bu ning jadi
+            cepet aja nyampenya. Sesampainya disana tuh aku liat kok rame anak-anak cewe, aku langsung sembunyi dong di
+            belakang mobil karena malu, eh tapi ketauan juga ama Pak Narto yaudahlah ditanya "nyari sapa?" ku jawab
+            "nyari bu ning pak", kemudian diarahi lah tu, nah pas jalan ga sengaja liat ada pita hijau yang sangat
+            familiar, pita sapa lagi kalo bukan punyamu sha ehehe. Dan dari situlah aku tau kamu les mtk tiap kamis
+            sore. Jadi kalo aku diajak pindah jadwal les kimia sangat semangat aku, ehehe sekalian modus buat ngelihat
+            kamu.</p>
+          <p class="hal">13</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 14">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Oh ya dulu waktu kita udah mutualan tu seneng banget gitu tiap kali buka ig kalo kamu on, kan
+            ada tu status on atau gaknya, nah itu tu ku pantengin terus kamu, ya walau cuman pp doang, aku ingat banget
+            kamu seringnya aktif pas malam-malam gitu lah, nah itu tuh kupantengin terus sampe kamu bener-bener off
+            wkwk, gabut banget tapi gitu aja udah bikin aku senang.</p>
+          <p class="teks">Selain si M, aku juga punya temen (sebut saja N ama Q) yang tau kalo aku ada suka sama
+            seseorang(kamu), tapi waktu itu mereka belum tau kalo itu kamu karena aku gamau ngasih tau mereka, takut
+            kesebar kemana-mana. Mereka tau karena si M ini kan ngolokin aku terus. Akhirnya mereka kepo tuh siapa(btw
+            mereka berdua panpis jadi mungkin kamu tau mereka). Si M ini ga bisa diem orangnya, jadi dikasi taulah
+            ciri-ciri mu secara umum, jadi ga langsung mengarah ke kamu. Nah si N ini langsung nunjukin foto-foto cewe
+            "yang ini kah qih", "yang inikah", "yang ini pasti", aku bilang aja "hmm gatau-gatau".</p>
+          <p class="hal">14</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 15">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Mereka ga berhenti-berhenti dari situ, akhirnya selang beberapa hari ketahuan juga lah kalau
+            orang itu kamu, karena mereka tau aku ngefollow kamu, dan disaat itu juga mereka berdua langsung follow
+            kamu. Dan mulai pada saat itu tambah-tambah aku diolok-oloki terus. Karena kita sudah mutualan di ig, tapi
+            masa di rl ga ada progres-progres, jadi mereka suruh aku buat dm kamu, tapi tetap aja aku masih belum berani
+            karena jatuhnya pada saat itu kita belum kenalan. Jadi dulu cuman bisa lihat kamu dari jauh, ngelihat kamu
+            on, mentok-mentok paling cuman ngelikein sg kamu, gitu terus.</p>
+          <p class="teks">Akhirnya ada suatu kesempatan untuk melihat kamu lebih dekat, pada saat itu kamu sama temen-temenmu jualan pudding, kan
+            jualannya keliling, nah kayaknya si temenku N liat kalian, langsung lari lah dia ke aku buat nginfoin, aku
+            waktu itu lagi di kelas ga ngapa-ngapain, terus waktu denger info gitu langsung semangat aku. Akhirnya kita
+            nyari kalian tapi sayangnya belum ketemu-ketemu kalian juga. </p>
+          <p class="teks"></p>
+          <p class="hal">15</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 16">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Kecewa aku, tapi di sisi lain belum siap mentalku juga wkwk. Waktu itu masih denial lah, akhirnya
+            balek deh ke kelas lagi karena ga ketemu-ketemu kalian. ETSSS pas jalan balek kita ngelihat kalian, dan
+            langsung kaget aku, "beneran ternyata ada sasha". Akhirnya aku siapin mental, sambil jalan(lari sedikit
+            kalian cepet banget soalnya) buat deketi kalian. Akhirnya pas udah deket aku langsung pede nanya "kalian
+            jual apa?", terus temenmu yang lagi pegang tempat pudingnya bilang "jualan puding kak, mau beli gak kak?",
+            aku jawab "berapaan emangnya?", habistu dijawab "2 ribuan kak"(kalau ga salah ingat), akhirnya aku beli 2,
+            nah waktu ditanya gitu-gitu, aku curi-curi pandang ke kamu hehe, mana kamu diem-diem aja lagi, kayak cuman
+            ngelihatin aku aja wkwkw(aduhh gemes bangettt), mana pas ambil uang dari dompetku tanganku gemetaran,
+            jantungku juga si wkwk. Akhirnya sudah dikasih kan pudingnya tu, langsung kabur aku karena ga kuatt. Btw,
+            puddingnya enakk manis banget pasti gegara kamu yah? dan itu salah satu pengalaman yang seru juga wkwkww.
+          </p>
+          <p class="hal">16</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 17">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Terus juga ada suatu kejadian. Jadi saat itu masih pagi-pagi pada jalan otw ke sekolah. Aku saat
+            itu dari arah jalan sakura ngeliat kok tumben pagi-pagi dah rame aja, saat itu aku masih ngantuk-ngantuk,
+            jadi kubiarin lah ya lanjut jalan masuk sekolah, terus aku liat Pak Budi tiba-tiba lari ke arah atas, yang
+            berarti ada sesuatu yang terjadi, tapi aku lanjut jalan aja. Akhirnya aku markirin motorku terus jalan ke
+            kelas. Setelah taro tas di kelas, keluar kelaslah aku karena gabut juga. Tiba-tiba si N dari kopsis lari
+            kenceng banget ke arahku. "QIH SASHA KECELEKAAN QIH" dia teriak ke arah aku, "HAHH" aku kaget dong terus dia
+            tarik aku buat dibawa ke kopsis. Aku waktu itu mikir "aduhh sasha gimana ya, semoga ga kenapa-napa", pas
+            udah di kopsis ternyata kamu sudah ga ada, cuman ada Bu Latifah kalo ga salah. Yaudahlah kutanya-tanya aja
+            Bu Latifah, jujur pas tau gitu aku langsung down banget rasanya dan cemas juga. Tapi katanya sih kamu gapapa
+            yang luka kakakmu, iya kah?(siapapun itu turut prihatin yaa). Aku waktu itu berharap aku bisa ngebantu kamu, apapun
+            akan kulakuin.</p>
+          <p class="hal">17</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 18">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Oh iya sha, semenjak kita udah follow-followan di ig aku jadi aktif main ig, sering bikin sg
+            pokoknya aktif banget lah ya, sampe-sampe temen-temenku pada bilang "ni orang tumben banget aktif ig bikin
+            sg terus perasaan" padahal sebelumnya jarang banget aku bikin sg, paling cuman repost sg doang. Yess bisa
+            dibilang aku caper ke kamu hehe. Berharap banget banget bangettt bisa di notice sama kamu. Pas liburan
+            semester juga aku ke Bandung kan tu, nah jalan jalan lah disana, salah satu tempat yang ku kunjungi itu The
+            Lodge Woodland. Setelah masuk tempatnya aku keliling tuh, nah ada satu tempat yang kayak ingat banget pernah
+            liat dimana gitu tapi gatau liat dimana, ehh setelah diingat-ingat, "LAH INI KAN TEMPAT YANG DI HIGHLIGHTNYA
+            SASHA". Langsung lah tu gercep aku foto langsung kumasukin sg, dan kukasih lagu juga, lagunya "Deja vu" yang
+            Olivia Rodrigo. Yess benar itu aku ngodein ke kamu, tapi kayaknya kamu ga notice deh :'(. Btw, tempatnya tu
+            yang kayak rumah kecil tapi model-model anime gitulah tau kan?(mirip highlightmulah).</p>
+          <p class="teks"></p>
+          <p class="hal">18</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 19">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Masuk semester 2, yang dimana makin pengen lebih dekat denganmu. Dimulai dari acara P5 yang
+            jualan-jualan itu, itu aku udah tau infonya dari semester 1 tapi ternyata diadakan di semester 2. Saat itu
+            kamu cantik banget pake baju semacam kebaya?(yang kuingat kamu pake rok gitulah) LUCU bangetlah. Karena tujuanku cuman beli
+            dagangan kelasmu yaudahlah langsung aja aku ke stand kelasmu. Yang dimana pada saat itu stand minumannya dijaga kamu, yaudahlah langsung aja aku ngedekat ke arah kamu untuk langsung beli, kamu saat itu lagi
+            sibuk nyiapin minumannya, lucu banget kamu akhirnya ga diem lagi. Setelah ambil minumannya aku langsung
+            ngejauh tapi tetap ngelihatin kamu dari jauh hehe. Sambil minum minumannya sambil ngelihatin kamu. Oya Kamu kan
+            waktu itu pernah bilang esnya kamu banyakin, tapi kok aku ngerasanya manisnya pas banget, mungkin gegara sambil
+            lihat kamu kali ya. Tapi maaf ya cuman bisa nyumbang 1 minuman doang, kalo kebanyakan takut pilek,
+            mau beli mienya juga tapi dah kenyang.</p>
+          <p class="hal">19</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 20">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Setelah itu aku langsung ngebuat notes di ig, tau kan ya yang biasanya bisa taro lagu disitu,
+            nah aku disitu nulis "enak banget es sirupnya" yess aku mencoba keberuntunganku lagi kesekian kalinya(yg gagal lagi), mana
+            waktu itu aku pede banget kamu pasti notice tapi keknya karena emang kamu pendiem aja orangnya. Tapi gapapa aku
+            emang ga berharap tinggi, walaupun agak kecewa ya.</p>
+          <p class="teks">1 Maret, hari Jumat hari yang aku pikir biasa saja awalnya. Aku buka ig dan
+            hal pertama yang kuliat adalah sgmu, yang dimana hal yang selalu kutunggu darimu. Aku langsung buka sgmu
+            yang isinya kamu nonton film anime KNB, dari situlah aku mikir "WAH INI KESEMPATAN!",
+            soalnya kapan lagi ada kesempatan kek gini. Tapi aku juga masih takut-takut gitu. Karena percobaan biar
+            dinotice kamu sebelum-sebelumnya gagal terus, akhirnya aku mikir "keknya aku yang harus mulai pertama deh" so i
+            did shoot my shot. Setelah aku reply sgmu aku langsung tutup hpku and again bersikap bodoamat.</p>
+          <p class="hal">20</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 21">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Saat itu aku masih belum berani buka hp sama sekali. Akhirnya karena kelas 12 pulang duluan,
+            jadinya aku langsung pulang ke rumah. Sampai di rumah, aku memberanikan buka hp dan hal yang pertama kali
+            aku liat waktu buka hp adalah notif dari ig, aku kaget ternyata ada notif dari "swaswa.". WOOO saat itu
+            girang banget aku wkwk, teriak-teriak juga. Akhirnya yaudahlah tu aku lanjuti pembahasannya, dan tetap
+            berakting cool. Nah karena sudah dm-dman jadi sekalian lah aku ngajak kamu kenalan, kapan lagi kesempatannya datang lagi
+            coba. Tapi karena waktu itu kamu slow respon aku jadi gaenak, jujur aku merasa jadi kayak "pengganggu",
+            makannya setelah dm-dman di hari itu, sudah ga berani aku lanjutkan. Tapi karena kita sudah kenalan jadi aku
+            anggap itu adalah sebuah progress hehe, meskipun kamu bilang kamu ga tau aku yang mana. Jujur sha aku
+            berterima kasih banget sudah mau menerima orang sepertiku :'), mulai dari follow-followan sampe sekarang,
+            aku sangat menghargai hal-hal tersebut.</p>
+          <p class="hal">21</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 22">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Karena udah ga dm-dman lagi, aku jadi gatau harus ngapai lagi buat ngedeketin kamu. Sudah
+            pasrah lah saat itu, jadi hari-hari selanjutnya balik lagi seperti awal, yaitu hanya melihat kamu dari jauh.
+            Karenakan aku bentar lagi mau lulus juga, jadi dilema lah pada saat itu. Terus terjadilah suatu moment, yang
+            dimana hari itu harusnya aku sudah pulang, tapi karena ada sosialisasi jadi aku memutuskan untuk menetap di
+            sekolah aja, mager pulang. Akhirnya kuputuskan waktu itu buat makan di kantin aja, karena aku sendirian jadi
+            gatau pilih tempat duduk dimana. Sampai akhirnya karena ngerasa diliatin terus gegara mondar-mandir gajelas
+            kuputuskanlah untuk duduk di deket yang jual minuman, karena pada saat itu meja yang kosong disitu, waktu itu aku mikir"ah ga mungkin lah ya sasha ke kantin,
+            akhir akhir ini jarang liat dia", aku mikir gitu karena aku sering liat kamu beli minuman kantin. Aku akhirnya makan lah tu, lama kelamaan temen-temenku pada datang nih,
+            padahal sebelumnya pada hilangan. Selesai makan, yaudahlah tuh ngobrol-ngobrol.</p>
+          <p class="teks"></p>
+          <p class="hal">22</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 23">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Ngobrol ngobrol ngobrol terus sampai dari ujung mata aku kek ngelihat kamu. Aku langsung noleh dong, DUARR ternyata
+            beneran kamu, kita langsung eye contact lumayan lama. Aku kaget dong panik dag dig dug juga. Terus kamu juga
+            keliatan panik gitu kek menjauh(kamu sudah tau aku kah sha pada saat itu? aku ngerasa keknya kamu udah tau
+            aku). Akhirnya karena takut buat kamu ga nyaman akhirnya aku pura-pura izin ke toilet ama temen-temenku,
+            padahal niatnya mau kabur. Aku juga ingat pas lari buat kabur aku kan ngedeketin ke arah kamu, nah kamu itu teriak
+            manggil temenmu "ANDIN ANDIN!!" gitu (eh iyakan Andin kan temenmu?). Pas di jalan dalam hati "KOK BISA KETEMU
+            SASHA SIH" mikirin itu terus sampe nyampe di toilet, aku ga kuatt rasanya kayak merah mukaku panas
+            gitu(blushing maybe) pen teriak tapi takut didatengi tar dikiranya ada apa-apa. Dari situlah aku pertama kali
+            denger suaramu yang dimana menurutku lucu bangett. Aku juga sengaja lewat kelas 11 karena biar makan waktu
+            lebih lama aja, karena saking ga kuatnya wkwk.</p>
+          <p class="teks"></p>
+          <p class="teks"></p>
+          <p class="hal">23</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 24">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Terus juga ada waktu dimana pada saat itu waktunya pulang, again me en my frens belum pulang
+            karena pengen keliling-keliling sekolah aja dulu. Aku ngikut-ngikut aja soalnya gatau lagi mau ngapain.
+            Terus kelilinglah kita muter muter sampe ke gedung B, yess bener tempat yang kutakuti wkwkw. "Gak ada sasha
+            kan ya, udah masukan juga aman aja sih harusnya" pikirku gitu, sampe pada akhirnya aku ngeliat kamu keluar
+            dari kelas, panik lah tu mau sembunyi tapi temenku banyak. Di situasi itu aku mau sembunyi karena malu sama
+            kamu, tapi karena temenku banyak aku malu mau sembunyi kek mana. Yaudahlah aku lihat lagi di lorong depan
+            kelasmu, kamu sudah gak ada. Menghela nafas aku untung aja kamu ga jadi. EITS selang beberapa detik kemudian
+            aku ngelihat kamu lagi, kali ini beneran makin ngedeket. PANIK BANGET, aku mau nyapa soalnya aku waktu dm-dman kan pernah bilang "nanti tau sendiri". Yaudahlah langsung saja "SASHAA!", kamu jalan terus sampe akhirnya kamu
+            ngelewatin aku. "IHHH DI KACANGIN :'(" dalam hatiku.</p>
+          <p class="hal">24</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 25">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Aku mikir "apa aku kurang keras nyapanya?", tapi temenku bilang ke aku "ciee tumben qih nyapa
+            cewe duluan"(tapi dia ngomongnya beda waktu bukan pada saat itu). Jadi ya harusnya kamu denger sih waktu
+            itu. Yaudahlah ya aku juga ga terlalu mikirin, siapa juga aku bukan orang yang terkenal juga wkwk. Tapi dari
+            situ kamu harusnya dah tau kan aku orangnya yang mana, walaupun agak sakit hati ya hikss. Mana malu banget aku pas lagi ada temen-temenku juga wkwkwk.</p>
+          <p class="teks">Terus juga hari terakhir sekolah aku akhirnya beraniin buat minta fotbar sama kamu, buat
+            kenangan aja. Awalnya aku pengen langsung minta fotbar sama kamu secara face to face. Aku bilang ke temenku
+            N, ehh ternyata dia ngechat faza buat ngasih tau ke kamu. Yaudahlah gapapa juga yang penting fotbar juga.
+            WKWKWK ingat banget kita ngejar kamu, berasa ngejer seleb(ea bercanda). Terus akhirnya faza bilang kamu di X
+            1 yaudahlah otw kesana, karena liat kelasnya rame jadi aku nunggu diluar aja. </p>
+          <p class="hal">25</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 26">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">EHH ternyata kamu langsung kabur waktu kita lengah, lucu banget kamu tiba tiba lari waktu itu. Yaudahlah aku harus menerima dengan keadaanmu. Aku akhirnya nitip aja deh cookies ke faza, yang dimana harusnya langsung ku kasi pas fotbar, tapi ternyata gajadi. Tapi sumpah gapapa sha, jangan merasa bersalah. Menolak itu hal yang wajar kok. Pada akhirnya kita jadi fotbar juga kan, MANA AKU KAGET BANGET KAMU TIBA-TIBA NYODORIN TANGAN BUAT POSE HEART, harusnya aku yang nyodorin duluan :(. Balik ke cerita, pulang-pulang buka hp EITS ADA NOTIF DARI KAMU. Mulai dari situ akhirnya aku bisa berani buat ngechat kamu terus.</p>
+          <p class="teks">Aku juga kaget tau pas perpisahan kelulusan tiba-tiba ditelpon faza dispam juga buat temuin dia. Ehh ternyata kamu ngasi aku sesuatu, nyesel sih ga cepet-cepet ke dia. SEKALI LAGI MAKASIH BANYAK YAA DASAR ORANG LUCUUU <3, TERIMA KASIH JUGA SUDAH EFFORT BIKIN GITUAN, AKU SANGAT MENGHARGAI HADIAH DARI KAMU!. Btw, gambarnya lucuu banget.</p>
+          <p class="hal">26</p>
+        </div>
+      </div>
+      
+      <div class="page left hidden gmbr" id="page 27">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">YAP Itulah tadi kejadian-kejadian yang paling memorable menurutku. Yang kalo diingat-ingat ternyata lucu juga ya. Kesimpulannya, dari awal aku hanya pengen mengagumi dari jauh saja, karena ngelihat kamu dari jauh saja sudah cukup. Tapi lama-kelamaan perasaan ini makin numbuh makin numbuh, jadi aku ingin mencoba mendekatimu dengan harapan kenal lebih dekat denganmu. Waktu awal-awal juga aku emang ga ngedeketi kamu secara ugal-ugalan karena i just don't want to make it so obvious. Aku takut juga kamu jadi takut ke aku gitu. Jadi aku memilih opsi mendekatimu secara perlahan aja. Maaf ya kalo buat kamu ngira aku adalah stalker, tidak bermaksud ingin menjadi seperti itu dan juga aku tidak ingin terlalu obsessed kepadamu.</p>
+          <p class="teks">Thank you for come in to my world sasha. Sangat senang bisa mengenalmu dari awal. Aku tidak menyesal aku telah mengenalmu, bahkan kalau bisa aku ingin mengenalmu lebih awal.</p>
+          <p class="teks"></p>
+          <p class="hal">27</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page 28">
+        <div class="page-content">
+          <h1>Chapter 1</h1>
+          <p class="teks">Aku ngerasa kamu telah membuatku menjadi orang yang berbeda dari sebelumnya sha. Awalnya aku adalah orang pendiem, yang melihat masa depan sebagai bualan semata, yang sebelumnya aku ngerasa diriku biasa-biasa saja, yang sebelumnya ngerasa aku akan melewati hari yang biasa-biasa saja. Tapi setelah mengenal dan mendekatimu, aku jadi bisa lebih ngehargain diriku sendiri, lebih punya arah tujuan, dan aku ngerasa aku berubah ke arah yang lebih positif. Sekali lagi terima kasih sudah menerima aku sha! Jujur ga nyangka kalo pada akhirnya sampai jadi seperti ini. Terima kasih juga sudah bikin aku berubah, mungkin kamu ga terlalu ngerasa, tapi aku ngerasain banget kalo aku ada perubahan. </p>
+          <P class="teks">Mungkin cukup itu saja deh yang aku mau sampaikan, mungkin juga masih banyak hal yang lupa kusampaiin karena saking banyaknya yang aku pengen omongin tentang kamu!
+          </P>
+          <p class="hal">28</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 29">
+        <div class="page-content">
+          <p class="end">~END of Chapter 1: My Point of View~</p>
+          <p class="hal">29</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page30">
+        <div class="page-content">
+          <h1 class="chp">Chapter 2: Confessions</h1>
+          <p class="hal">30</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 31">
+        <div class="page-content">
+          <h1></h1>
+          <p class="end">(bukan confessions of sins ya, bercandaa)</p>
+          <p class="teks"></p>
+          <p class="teks"></p>
+          <p class="hal">31</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page32">
+        <div class="page-content">
+          <h1 class=></h1>
+          <p class="end">(ok faqih tarik nafass hembuskann, sasha boleh juga ko kalo mau ;])</p>
+          <p class="hal">32</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page33">
+        <div class="page-content">
+            <h1>Chapter 2</h1>
+            <p class="teks">Dengan semua yang kejadian yang telah terjadi dan telah berlalu, aku dengan ini menyatakan bahwa SASHA I HAVE A CRUSH ON YOU SHA!! AND I LIKE YOUU AND MAYBE I THINK THAT I'M IN THE STAGE WHERE I LOVE YOU NOW. I still don't know why i like you, but you've caught my eye in the first place. I still didn't know the reason but mungkin aku sudah suka kamu in the first sight, tetapi aku saja yang tidak sadar, karena setiap kali aku melihatmu rasa perasaan itu makin tumbuh. Aku suka menunggu kamu di depan kelas 12 hanya untuk melihat kamu jalan di lorong untuk pergi ke ruang audit tiap pagi hari karena aku anggap dulu itu sebagai api semangatku buat ngejalanin hari di sekolah, sampai-sampai aku hafal jam kamu lewat, yaitu rata-rata di atas jam 6.55, terus kalau aku ga lihat kamu lewat jadi kepikiran kalau kamu sakit atau terjadi sesuatu hal yang membuatku khawatir dan buat aku jadi kurang semangat buat sekolah, bahkan saking seringnya aku melihat kamu aku jadi hafal cara jalanmu yang dimana aku juga suka,-  </p>
+            <p class="hal">33</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page34">
+        <div class="page-content">
+          <h1>Chapter 2</h1>
+          <p class="teks">aku bahkan pernah sengaja mengisi minuman di jam-jam segitu hanya modus untuk melihatmu lebih dekat. Aku juga suka penampilanmu di pagi hari saat jam-jam masuk sekolah, yang dimana dengan rambutmu yang masih basah itu membuatmu terlihat tambah lucu. Aku suka melihat kamu dari jauh maupun dekat, karena setiap aku melihat kamu hatiku menjadi lebih tenang. Jujur aku ngerasa setiap kali lihat kamu, you are shinier than everybody else. Aku suka kamu ketika kamu mengenakan aksesoris pita yang di rambutmu itu, but even without the ribbon you still look pretty anyway, aku ngerasa pita itu adalah bentuk ciri khas dari dirimu sha karena setiap aku lihat pita aku pasti mikirinnya ke kamu, tapi diakhir-akhir aku mau lulus aku liat kamu sudah jarang pake pitanya :(.  Aku juga suka sisimu yang pendiem itu, walaupun kamu pendiem tapi kamu diem-diem membuatku terpesona olehmu dan juga kamu diem-diem buat aku jadi tertarik dengan kamu. Aku suka mantengin akunmu on dan menunggumu sampai off di ig waktu dulu. </p>
+          <p class="hal">34</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 35">
+        <div class="page-content">
+          <h1>Chapter 2</h1>
+          <p class="teks">Aku sangat senang kalau kita sudah sampai dm-dman dan aku pengen bangett membahas banyak hal, kerandoman, atau apapun itu ke kamu, tapi tau sendirilah aku kayak gimana, aku ga pinter ngomong, aku kadang berpikir banyak kali untuk membahas suatu topik ke kamu, takut kamu tersinggung nanti. Kadang-kadang kalo aku gabut aku suka lihatin highlight-highlightmu lagi(mohon maaf), karena selucu itu dirimu. Aku suka matamu yang sering membuatku lemah tidak berdaya, walaupun terhalang oleh kacamatamu yang dimana aku juga suka. Aku suka ngelihat kamu pas waktu bikin minuman buat P5 yang jual-jualan, lucu banget soalnya, jarang lihat sisi sasha yang seperti itu. Aku juga suka suaramu soalnya kejadian yang di kantin suaramu selalu terngiang-ngiang di kepalaku kalo diingat. Oya aku suka memperhatiin kamu sampai-sampai aku tahu kalau kamu ga pernah pake sepatumu dengan benar, seperti layaknya kamu memakai sendal yang dimana bagiku lucu. Aku juga suka ketika melihat ketika kamu dengan-</p>
+          <p class="hal">35</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page36">
+        <div class="page-content">
+          <h1>Chapter 2</h1>
+          <p class="teks">temenmu, lucu banget saat kamu selalu menggerakan tanganmu saat menceritakan sesuatu, kamu terlihat sangat antusias menceritakannya. Aku juga melihat kamu seperti orang yang memiliki kepribadian yang berbeda-beda, kadang aku melihatmu seperti anak kecil, kadang kamu terlihat orang yang dingin, kadang aku melihatmu sebagai orang yang dewasa, dan semua itu bagiku lucu banget, aku sangat suka dengan hal tersebut. Aku sering banget kalau ishoma lewat lorong untuk ke kantin biar papasan sama kamu, TAPI pas kita malah ketemuan aku langsung kaku dan terdiam wkwk. Oya kita kan dulu jadwal olahraga barengan di hari dan jam yang sama, jadi aku suka diem-diem liatin kamu olahraga, seringnya sih lihat dari kopsis, karena kelas 10 sering olahraga yang di lapangan basket luar kan. I THINK I LIKE ALMOST EVERYTHING ABOUT YOU SHA. Aku juga berpikir kita memiliki kesamaan yang lumayan banyak dan karena itulah aku berani mendekati kamu dan ingin mengenalmu. Sasha are you the definition of cuteness?(i think yes)</p>
+          <p class="hal">36</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 37">
+        <div class="page-content">
+          <h1>Chapter 2</h1>
+          <p class="teks"> Eh pernah tau aku dikenalin sama Pak Narto ke kalian pas les Pak Narto gatau kamu ingat atau ga, pernah juga pas les aku kek gak fokus gitu kan, eh dibilang ama Pak Narto "bun(manggil bu ning) faqih keknya suka sama seseorang nih!" langsung kaget aku, saat itu aku tetap diem aja karena mencoba memecahkan soalnya yang susah bangettt. Oh ya Sashaa pls tell me if i'm so annoying or whatever you want to tell, plss tell me okay, it's really fine to tell that such things, be honest.</p>
+          <p class="teks">Aku tau mungkin hal-hal yang kusebutkan tadi terdengar agak cringe, jujur bagiku iya karena mungkin aku ga pintar menyampaikan perasaanku dengan baik, but i'm not lying about my feelings. Maka dari itu aku sangat berterima kasih kamu sudah terbuka terhadap aku, dan masih ga nyangka aja sih kamu sudah begitu. Sasha i think you are undescribed woman because i think too many words that can fit to describe you(That is a compliment, don't be wrong pls okay).</p>
+          <p class="teks"></p>
+          <p class="hal">37</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page38">
+        <div class="page-content">
+          <h1 class=>Chapter 2</h1>
+          <p class="teks">Dan juga kejadian-kejadian yang barusan terjadi, membuatku berpikir kalau kamu sangat sangat a really sweet woman. Jujur aku ga expect kalau kamu orangnya seperti itu karenakan dari luar kamu terlihat sangat berbeda, betul kata orang-orang kalau jangan menilai buku dari sampulnya saja. Lucu banget tau kamu pas ngasih tau aku kalo aku lagi dikatain dan kamu malah yang ga terima, jujur kaget dan agak ngakak sih denger gitu dari kamu, ya pokoknya terima kasih banget ga nyangka kamu sampe seperti itu lohh. Terus juga terima kasih yaa, sudah ingin mendengarkan cerita-ceritaku semua keluh kesahku dan sebagainya. I feel like you're became a different person at that moment, and i think that you're such a heartwarming person sha! Makasih ya sha semua yang kamu lakukan selama ini selalu bikin aku lebih senang. Tapi sha aku mau nanya, emang kamu suka aku juga kah? karena bagiku kamu masih belum terbaca sama sekali, kadang-kadang saja perlakuanmu mengarah ke itu.</p>
+          <p class="hal">38</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 39">
+        <div class="page-content">
+          <h1>Chapter 2</h1>
+          <p class="teks">Aku sudah gabisa memakan waktu lebih lama lagi, dan membuatmu menunggumu lebih lama. So sha i want to take this relationship one step ahead more closer than before, yes i want you to be mine, aku tau kita belum ada membahas tentang ini lebih dalam, tapi gimana sha will you want?. Tak usah buru-buru untuk ngejawab, tapi jikalau sasha sudah punya jawabannya langsung saja jawab aja okee. Sebenarnya aku sudah cukup bahagia dengan status kita yang sekarang, yang cukup dekat tapi tidak terlalu dekat. Rasanya perjuanganku tidak sia-sia kalau aku sudah sampai di titik ini. Aku saja sudah bersyukur kamu follow balik aku dari awal dan mau meresponku. Sebenarnya jika kamu nanti menolak/menerimaku itu akan membuatku tetap bahagia hanya saja dengan kondisi yang berbeda. Dan jikapun kalau kamu nanti menolak aku akan berhenti untuk menganggu kamu, yes benar dengan kata lain aku akan menjauh dari dirimu. Jadi aku berterima kasih atas memory-memory yang telah terbuat selama kita dekat. Kutunggu yaa jawaban dari kamu secepatnyaa!!</p>
+          <p class="teks"></p>
+          <p class="teks"></p>
+          <p class="hal">39</p>
+        </div>
+      </div>
+      <div class="page right hidden gmbr" id="page40">
+        <div class="page-content">
+          <h1>Chapter 2</h1>
+          <p class="teks">Yah, mungkin itu saja yang aku mau sampaikan dan akui di Chapter 2 ini, jujur di chapter ini aku sedikit nangis tapi bukan nangis yang sedih, nangisnya kayak akhirnya melepas beban dan akhirnya membuat aku jadi lebih lega. Terus untuk ringkasan sederhana dari isi keseluruhan buku ini jadi begini; kamu lucu lucu lucu lucu lucuuuuuuu bangettt, terus aku menyukaimu, terus aku ingin dekat dan kenal denganmu, dan setelah dekat dan kenal aku berharap kita bisa menjadi sebuah pasangan. Kalaupun tidak bisapun tidak apa-apa aku akan senang, juga aku akan mencoba menerima apapun alasanmu. </p>
+          <p class="hal">40</p>
+        </div>
+      </div>      
+      <div class="page left hidden gmbr" id="page 41">
+        <div class="page-content">
+          <h1></h1>
+          <p class="end">~END of Chapter 2: Confessions~</p>
+          <p class="teks"></p>
+          <p class="teks"></p>
+          <p class="hal">41</p>
+        </div>
+      </div> 
+      <div class="page right hidden gmbr" id="page42">
+        <div class="page-content">
+          <h1 class=>_</h1>
+          <p class="teks">Jika kamu membaca ini maka kamu sudah sampai di bagian akhir dari isi buku ini. Terima kasih ya sudah membaca sampe habis dari buku yang kubuat ini. Akhirnya aku lega juga, aku ga bisa buat kamu menunggu lebih lama lagi takut waktumu terbuang sia-sia makannya aku memberanikan diri untuk confess ke kamu. Mungkin ga ada lagi yang aku mau sampaikan. Oya aku doain semoga ujianmu hasilnya bagus-bagus nanti di rapot, SASHA KERENNN BISA MELEWATI SEMUANYA SAMPE AKHIRR, maaf ya seperti kataku aku ga berani ngechat buat nyemangatin kamu, tapi aku tau pasti sasha bisa melewatinya kok kan sasha orangnya pintarrr. Udah segitu aja sekali lagi terima kasih atas semuanya ya sha! kutunggu jawabannya! Maaf ya kalau selama ini buat kamu ngerasa risih, maaf juga kalau tadi ada perkataan yang bikin kamu ga enak hati, maaf ya kalau setelah kamu baca ini kamu ngira aku too obsessed or being a stalker atau apapun yang lainnya, i just like you.</p>
+          <p class="hal">42</p>
+        </div>
+      </div>
+      <div class="page left hidden gmbr" id="page 43">
+        <div class="page-content">
+          <h1></h1>
+          <img src="8thgne.jpg" alt="cat" style="width: 50%; height:50%; align-items: center; justify-content: center; display: flex; margin-left: auto; margin-right: auto; margin-top: 150px; margin-bottom: auto;">
+          <p class=""></p>
+          <p class="teks"></p>
+          <p class="teks"></p>
+          <p class="hal">43</p>
+        </div>
+      </div>
+      <div class="page right hidden blank" id="page44">
+        <div class="page-content">
+          <h1 class=></h1>
+          <p class="end"></p>
+          <p class="hal"></p>
+        </div>
+      </div>
+      <div class="page left hidden" id="cover-left">
+        <div class="page-content cover">
+          <h1>End of the book</h1>
+        </div>
+      </div>
+      <div class="page right hidden" id="page46">
+        <div class="page-content">
+          <h1></h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentPageIndex = -1;
+
+    function flipPage() {
+      const pages = document.querySelectorAll('.page');
+      const totalPages = pages.length;
+
+      if (currentPageIndex + 2 >= totalPages) return;
+
+      const currentLeftPage = currentPageIndex >= 0 ? pages[currentPageIndex] : null;
+      const currentRightPage = pages[currentPageIndex + 1];
+
+      if (currentRightPage) {
+        currentRightPage.style.transform = "rotateY(-120deg)";
+        currentRightPage.style.zIndex = 2;
+      }
+
+      setTimeout(() => {
+        if (currentLeftPage) {
+          currentLeftPage.classList.add('hidden');
+        }
+        if (currentRightPage) {
+          currentRightPage.classList.add('hidden');
+          currentRightPage.style.transform = "";
+          currentRightPage.style.zIndex = 1;
+        }
+
+        currentPageIndex += 2;
+
+        const nextLeftPage = pages[currentPageIndex] || null;
+        const nextRightPage = pages[currentPageIndex + 1] || null;
+
+        if (nextLeftPage) {
+          nextLeftPage.classList.remove('hidden');
+        }
+        if (nextRightPage) {
+          nextRightPage.classList.remove('hidden');
+        }
+
+        if (currentPageIndex >= totalPages - 2) {
+          nextRightPage.style.backgroundColor = "white";
+          nextRightPage.querySelector('.page-content').style.background = "none";
+        } else {
+          document.getElementById('book').style.opacity = 1;
+        }
+      }, 500);
+    }
+
+    function flipBackPage() {
+      const pages = document.querySelectorAll('.page');
+      if (currentPageIndex - 2 < -1) return;
+      const previousLeftPage = pages[currentPageIndex - 2];
+      const previousRightPage = pages[currentPageIndex - 1];
+
+      previousLeftPage.classList.remove('hidden');
+      previousLeftPage.style.zIndex = 2;
+
+      previousRightPage.classList.remove('hidden');
+      previousRightPage.style.zIndex = 1;
+
+      setTimeout(() => {
+        previousLeftPage.style.transform = "rotateY(-120deg)";
+      }, 0);
+
+      setTimeout(() => {
+        pages[currentPageIndex].classList.add('hidden');
+        pages[currentPageIndex + 1].classList.add('hidden');
+        currentPageIndex -= 2;
+        previousLeftPage.style.transform = "";
+        previousLeftPage.style.zIndex = 1;
+      }, 400);
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowRight') {
+        flipPage();
+      } else if (event.key === 'ArrowLeft') {
+        flipBackPage();
+      }
+    });
+  </script>
+
+  <button onclick="flipBackPage()" class="page-button button-left"><img src="previous.png"
+      alt="Halaman Sebelumnya"></button>
+  <button onclick="flipPage()" class="page-button button-right"><img src="next.png" alt="Halaman Selanjutnya"></button>
+
+</body>
+
+</html>
